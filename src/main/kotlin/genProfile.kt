@@ -7,6 +7,7 @@ import java.io.StringWriter
 import java.io.StringReader
 import javax.xml.transform.stream.StreamSource
 import oracle.jrockit.jfr.events.Bits.doubleValue
+import oracle.jrockit.jfr.events.Bits.write
 import org.xml.sax.InputSource
 import java.math.RoundingMode
 import java.math.BigDecimal
@@ -14,7 +15,10 @@ import javax.xml.parsers.DocumentBuilderFactory
 
 
 fun main(args: Array<String>){
+    writeProfile(0.1)
+    writeProfile(0.2)
     writeProfile(0.4)
+    writeProfile(0.6)
     writeProfile(1.0)
 }
 
@@ -38,7 +42,7 @@ fun genProfile(nozzleSize: Double): String{
   <printMaterial>PETG</printMaterial>
   <printQuality>Medium</printQuality>
   <printExtruders></printExtruders>
-  <extruder name="${nozzleSize}mm">
+  <extruder name="Extruder ${nozzleSize}mm">
     <toolheadNumber>0</toolheadNumber>
     <diameter>${nozzleSize}</diameter>
     <autoWidth>1</autoWidth>
