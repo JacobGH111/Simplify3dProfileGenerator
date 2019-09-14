@@ -29,10 +29,10 @@ fun writeProfile(nozzleSize: Double){
     File(writeTo).writeText(genProfile(nozzleSize))
 }
 
-data class Material(val name: String, val extruderTemp: Int, val bedTemp: Int)
-val pla = Material("PLA", 200, 60)
-val plaPlus = Material("PLA+", 210, 60)
-val petg = Material("PETG", 250, 70)
+data class Material(val name: String, val extruderTemp: Int, val bedTemp: Int, val extrusionMultiplier: Double)
+val pla = Material(name = "PLA", extruderTemp = 200, bedTemp = 60, extrusionMultiplier = 1.0)
+val plaPlus = Material(name = "PLA+", extruderTemp = 210, bedTemp = 60, extrusionMultiplier = 1.0)
+val petg = Material(name = "PETG", extruderTemp = 250, bedTemp = 70, extrusionMultiplier = 1.05)
 
 
 fun genProfile(nozzleSize: Double): String{
@@ -211,7 +211,7 @@ fun genProfile(nozzleSize: Double): String{
   <useDiaphragm>0</useDiaphragm>
   <diaphragmLayerInterval>20</diaphragmLayerInterval>
   <robustSlicing>1</robustSlicing>
-  <mergeAllIntoSolid>1</mergeAllIntoSolid>
+  <mergeAllIntoSolid>0</mergeAllIntoSolid>
   <onlyRetractWhenCrossingOutline>1</onlyRetractWhenCrossingOutline>
   <retractBetweenLayers>1</retractBetweenLayers>
   <useRetractionMinTravel>0</useRetractionMinTravel>
@@ -234,20 +234,20 @@ fun genProfile(nozzleSize: Double): String{
   ${genMaterial(pla)}
   ${genMaterial(plaPlus)}
   ${genMaterial(petg)}
-  ${genQuality(name = "Low", layerHeight = (nozzleSize*0.75).round(4))}
-  ${genQuality(name = "Medium", layerHeight = (nozzleSize*0.5).round(4))}
-  ${genQuality(name = "High", layerHeight = (nozzleSize*0.25).round(4))}
+  ${genQuality(name = "Low", layerHeight = (nozzleSize*0.75).round(4), infillPercntage = 15)}
+  ${genQuality(name = "Medium", layerHeight = (nozzleSize*0.5).round(4), infillPercntage = 50)}
+  ${genQuality(name = "High", layerHeight = (nozzleSize*0.25).round(4), infillPercntage = 80)}
 </profile>
 """
 }
 
-fun genQuality(name: String, layerHeight: Double): String{
+fun genQuality(name: String, layerHeight: Double, infillPercntage: Int): String{
     return """<autoConfigureQuality name="$name">
     <layerHeight>$layerHeight</layerHeight>
     <topSolidLayers>3</topSolidLayers>
     <bottomSolidLayers>3</bottomSolidLayers>
     <skirtLayers>1</skirtLayers>
-    <infillPercentage>15</infillPercentage>
+    <infillPercentage>$infillPercntage</infillPercentage>
     <supportInfillPercentage>25</supportInfillPercentage>
 </autoConfigureQuality>"""
 }
@@ -256,7 +256,7 @@ fun genMaterial(material: Material): String{
     return """<autoConfigureMaterial name="${material.name}">
     <globalExtruderTemperature>${material.extruderTemp}</globalExtruderTemperature>
     <globalBedTemperature>${material.bedTemp}</globalBedTemperature>
-    <globalExtrusionMultiplier>1</globalExtrusionMultiplier>
+    <globalExtrusionMultiplier>${material.extrusionMultiplier}</globalExtrusionMultiplier>
     <fanSpeed>
       <setpoint layer="1" speed="100"/>
     </fanSpeed>
