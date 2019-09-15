@@ -1,16 +1,9 @@
 
-import java.io.File
-import javax.xml.transform.OutputKeys
-import javax.xml.transform.TransformerFactory
-import javax.xml.transform.stream.StreamResult
-import java.io.StringWriter
-import java.io.StringReader
-import javax.xml.transform.stream.StreamSource
-import oracle.jrockit.jfr.events.Bits.doubleValue
-import oracle.jrockit.jfr.events.Bits.write
 import org.xml.sax.InputSource
-import java.math.RoundingMode
+import java.io.File
+import java.io.StringReader
 import java.math.BigDecimal
+import java.math.RoundingMode
 import javax.xml.parsers.DocumentBuilderFactory
 
 
@@ -32,7 +25,7 @@ fun writeProfile(nozzleSize: Double){
 data class Material(val name: String, val extruderTemp: Int, val bedTemp: Int, val extrusionMultiplier: Double)
 val pla = Material(name = "PLA", extruderTemp = 200, bedTemp = 60, extrusionMultiplier = 1.0)
 val plaPlus = Material(name = "PLA+", extruderTemp = 210, bedTemp = 60, extrusionMultiplier = 1.0)
-val petg = Material(name = "PETG", extruderTemp = 250, bedTemp = 70, extrusionMultiplier = 1.05)
+val petg = Material(name = "PETG", extruderTemp = 250, bedTemp = 70, extrusionMultiplier = 1.10)
 
 
 fun genProfile(nozzleSize: Double): String{
