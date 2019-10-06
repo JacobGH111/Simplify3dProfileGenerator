@@ -8,11 +8,11 @@ import javax.xml.parsers.DocumentBuilderFactory
 
 
 fun main(args: Array<String>){
-    writeProfile(0.1)
-    writeProfile(0.2)
-    writeProfile(0.4)
-    writeProfile(0.6)
-    writeProfile(1.0)
+    writeProfile(nozzleSize = 0.1)
+    writeProfile(nozzleSize =0.2)
+    writeProfile(nozzleSize =0.4)
+    writeProfile(nozzleSize =0.6)
+    writeProfile(nozzleSize =1.0)
 }
 
 fun writeProfile(nozzleSize: Double){
@@ -23,8 +23,8 @@ fun writeProfile(nozzleSize: Double){
 }
 
 data class Material(val name: String, val extruderTemp: Int, val bedTemp: Int, val extrusionMultiplier: Double)
-val pla = Material(name = "PLA", extruderTemp = 200, bedTemp = 60, extrusionMultiplier = 1.0)
-val plaPlus = Material(name = "PLA+", extruderTemp = 210, bedTemp = 60, extrusionMultiplier = 1.0)
+val pla = Material(name = "PLA", extruderTemp = 200, bedTemp = 60, extrusionMultiplier = 1.05)
+val plaPlus = Material(name = "PLA+", extruderTemp = 210, bedTemp = 60, extrusionMultiplier = 1.05)
 val petg = Material(name = "PETG", extruderTemp = 250, bedTemp = 70, extrusionMultiplier = 1.10)
 
 
@@ -62,7 +62,7 @@ fun genProfile(nozzleSize: Double): String{
   <startPointOriginY>0</startPointOriginY>
   <sequentialIslands>0</sequentialIslands>
   <spiralVaseMode>0</spiralVaseMode>
-  <firstLayerHeightPercentage>100</firstLayerHeightPercentage>
+  <firstLayerHeightPercentage>90</firstLayerHeightPercentage>
   <firstLayerWidthPercentage>110</firstLayerWidthPercentage>
   <firstLayerUnderspeed>0.5</firstLayerUnderspeed>
   <useRaft>0</useRaft>
