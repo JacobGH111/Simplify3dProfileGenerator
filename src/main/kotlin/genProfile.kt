@@ -1,4 +1,3 @@
-
 import org.xml.sax.InputSource
 import java.io.File
 import java.io.StringReader
@@ -7,39 +6,52 @@ import java.math.RoundingMode
 import javax.xml.parsers.DocumentBuilderFactory
 
 
-fun main(args: Array<String>){
-    writeProfile(nozzleSize = 0.1)
-    writeProfile(nozzleSize =0.2)
-    writeProfile(nozzleSize =0.4)
-    writeProfile(nozzleSize =0.6)
-    writeProfile(nozzleSize =1.0)
+fun main(args: Array<String>) {
+    nozzles.forEach {
+        writeProfile(it)
+    }
 }
 
-fun writeProfile(nozzleSize: Double){
+/**
+ * @param extruderTempOffSet For a larger diameter you might want to increase the temperature
+ */
+data class Nozzle(val diameter: Double, val extruderTempOffSet: Int)
+
+val nozzles = listOf(
+        Nozzle(diameter = 0.1, extruderTempOffSet = 0),
+        Nozzle(diameter = 0.2, extruderTempOffSet = 0),
+        Nozzle(diameter = 0.4, extruderTempOffSet = 0),
+        Nozzle(diameter = 0.6, extruderTempOffSet = 0),
+        Nozzle(diameter = 1.0, extruderTempOffSet = 15)
+)
+
+
+fun writeProfile(nozzle: Nozzle) {
     val homeDir = System.getProperty("user.home") + "/Desktop"
-    val writeTo = "$homeDir/Ender_3_${nozzleSize}mm.fff"
+    val writeTo = "$homeDir/Ender_3_${nozzle.diameter}mm.fff"
     println("writing to $writeTo")
-    File(writeTo).writeText(genProfile(nozzleSize))
+    File(writeTo).writeText(genProfile(nozzle))
 }
 
 data class Material(val name: String, val extruderTemp: Int, val bedTemp: Int, val extrusionMultiplier: Double)
+
 val pla = Material(name = "PLA", extruderTemp = 200, bedTemp = 60, extrusionMultiplier = 1.05)
 val plaPlus = Material(name = "PLA+", extruderTemp = 210, bedTemp = 60, extrusionMultiplier = 1.05)
 val petg = Material(name = "PETG", extruderTemp = 250, bedTemp = 70, extrusionMultiplier = 1.10)
 
 
-fun genProfile(nozzleSize: Double): String{
+fun genProfile(nozzle: Nozzle): String {
     return """<?xml version="1.0"?>
-<profile name="Ender 3 - ${nozzleSize}mm" version="2019-09-01 15:04:13" app="S3D-Software 4.1.2">
+<profile name="Ender 3 - ${nozzle.diameter}mm" version="2019-09-01 15:04:13" app="S3D-Software 4.1.2">
   <baseProfile></baseProfile>
   <printMaterial>PETG</printMaterial>
   <printQuality>Medium</printQuality>
   <printExtruders></printExtruders>
-  <extruder name="Extruder ${nozzleSize}mm">
+  <extruder name="Extruder ${nozzle.diameter}mm">
     <toolheadNumber>0</toolheadNumber>
-    <diameter>${nozzleSize}</diameter>
+    <diameter>${nozzle.diameter}</diameter>
     <autoWidth>1</autoWidth>
-    <width>${nozzleSize*1.2}</width>
+    <width>${nozzle.diameter * 1.2}</width>
     <extrusionMultiplier>1</extrusionMultiplier>
     <useRetract>1</useRetract>
     <retractionDistance>4</retractionDistance>
@@ -76,8 +88,8 @@ fun genProfile(nozzleSize: Double): String{
   <useSkirt>1</useSkirt>
   <skirtExtruder>0</skirtExtruder>
   <skirtLayers>1</skirtLayers>
-  <skirtOutlines>2</skirtOutlines>
-  <skirtOffset>4</skirtOffset>
+  <skirtOutlines>4</skirtOutlines>
+  <skirtOffset>0</skirtOffset>
   <usePrimePillar>0</usePrimePillar>
   <primePillarExtruder>999</primePillarExtruder>
   <primePillarWidth>12</primePillarWidth>
@@ -224,17 +236,17 @@ fun genProfile(nozzleSize: Double): String{
   <singleExtrusionMaxPrintingWidthPercentage>200</singleExtrusionMaxPrintingWidthPercentage>
   <singleExtrusionEndpointExtension>0.2</singleExtrusionEndpointExtension>
   <horizontalSizeCompensation>0</horizontalSizeCompensation>
-  ${genMaterial(pla)}
-  ${genMaterial(plaPlus)}
-  ${genMaterial(petg)}
-  ${genQuality(name = "Low", layerHeight = (nozzleSize*0.75).round(4), infillPercntage = 15)}
-  ${genQuality(name = "Medium", layerHeight = (nozzleSize*0.5).round(4), infillPercntage = 50)}
-  ${genQuality(name = "High", layerHeight = (nozzleSize*0.25).round(4), infillPercntage = 80)}
+  ${genMaterial(pla, nozzle)}
+  ${genMaterial(plaPlus, nozzle)}
+  ${genMaterial(petg, nozzle)}
+  ${genQuality(name = "Low", layerHeight = (nozzle.diameter * 0.75).round(4), infillPercntage = 15)}
+  ${genQuality(name = "Medium", layerHeight = (nozzle.diameter * 0.5).round(4), infillPercntage = 50)}
+  ${genQuality(name = "High", layerHeight = (nozzle.diameter * 0.25).round(4), infillPercntage = 80)}
 </profile>
 """
 }
 
-fun genQuality(name: String, layerHeight: Double, infillPercntage: Int): String{
+fun genQuality(name: String, layerHeight: Double, infillPercntage: Int): String {
     return """<autoConfigureQuality name="$name">
     <layerHeight>$layerHeight</layerHeight>
     <topSolidLayers>3</topSolidLayers>
@@ -245,9 +257,9 @@ fun genQuality(name: String, layerHeight: Double, infillPercntage: Int): String{
 </autoConfigureQuality>"""
 }
 
-fun genMaterial(material: Material): String{
+fun genMaterial(material: Material, nozzle: Nozzle): String {
     return """<autoConfigureMaterial name="${material.name}">
-    <globalExtruderTemperature>${material.extruderTemp}</globalExtruderTemperature>
+    <globalExtruderTemperature>${material.extruderTemp + nozzle.extruderTempOffSet}</globalExtruderTemperature>
     <globalBedTemperature>${material.bedTemp}</globalBedTemperature>
     <globalExtrusionMultiplier>${material.extrusionMultiplier}</globalExtrusionMultiplier>
     <fanSpeed>
@@ -265,7 +277,7 @@ fun String.prettyFormat(indent: Int): String {
     return doc.toString()
 }
 
-fun Double.round(places: Int): Double{
+fun Double.round(places: Int): Double {
     if (places < 0) throw IllegalArgumentException()
 
     var bd = BigDecimal(java.lang.Double.toString(this))
