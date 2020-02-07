@@ -35,7 +35,7 @@ fun writeProfile(nozzle: Nozzle) {
 
 data class Material(val name: String, val extruderTemp: Int, val bedTemp: Int, val extrusionMultiplier: Double)
 
-val pla = Material(name = "PLA", extruderTemp = 200, bedTemp = 60, extrusionMultiplier = 1.05)
+val pla = Material(name = "PLA", extruderTemp = 210, bedTemp = 60, extrusionMultiplier = 1.05)
 val plaPlus = Material(name = "PLA+", extruderTemp = 210, bedTemp = 60, extrusionMultiplier = 1.05)
 val petg = Material(name = "PETG", extruderTemp = 250, bedTemp = 70, extrusionMultiplier = 1.10)
 
@@ -85,7 +85,7 @@ fun genProfile(nozzle: Nozzle): String {
   <raftSeparationDistance>0.14</raftSeparationDistance>
   <raftTopInfill>100</raftTopInfill>
   <aboveRaftSpeedMultiplier>0.3</aboveRaftSpeedMultiplier>
-  <useSkirt>1</useSkirt>
+  <useSkirt>0</useSkirt>
   <skirtExtruder>0</skirtExtruder>
   <skirtLayers>1</skirtLayers>
   <skirtOutlines>4</skirtOutlines>
