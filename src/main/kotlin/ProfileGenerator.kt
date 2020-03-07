@@ -194,9 +194,9 @@ fun genProfile(nozzle: Nozzle): String {
   <singleExtrusionMaxPrintingWidthPercentage>200</singleExtrusionMaxPrintingWidthPercentage>
   <singleExtrusionEndpointExtension>0.2</singleExtrusionEndpointExtension>
   <horizontalSizeCompensation>0</horizontalSizeCompensation>
-  ${genMaterial(pla, nozzle)}
-  ${genMaterial(plaPlus, nozzle)}
-  ${genMaterial(petg, nozzle)}
+  ${materials.map {
+        genMaterial(it, nozzle) + System.lineSeparator()
+    }.joinToString(separator = "")}
   ${genQuality(name = "Low", layerHeight = (nozzle.diameter * 0.75).round(4), infillPercntage = 15)}
   ${genQuality(name = "Medium", layerHeight = (nozzle.diameter * 0.5).round(4), infillPercntage = 50)}
   ${genQuality(name = "High", layerHeight = (nozzle.diameter * 0.25).round(4), infillPercntage = 80)}
