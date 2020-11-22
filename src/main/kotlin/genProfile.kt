@@ -34,13 +34,20 @@ fun writeProfile(nozzle: Nozzle) {
     File(writeTo).writeText(genProfile(nozzle))
 }
 
-data class Material(val name: String, val extruderTemp: Int, val bedTemp: Int, val extrusionMultiplier: Double, val defaultPrintingSpeed: Int)
+data class Material(val name: String,
+                    val extruderTemp: Int,
+                    val bedTemp: Int,
+                    val extrusionMultiplier: Double,
+                    val defaultPrintingSpeed: Int,
+                    val firstLayerHeightPercentage: Int = 90,
+                    val firstLayerWidthPercentage: Int = 110
+)
 
 val materials = listOf(
         Material(name = "PLA", extruderTemp = 210, bedTemp = 60, extrusionMultiplier = 1.05, defaultPrintingSpeed = 60),
         Material(name = "PLA+", extruderTemp = 210, bedTemp = 60, extrusionMultiplier = 1.05, defaultPrintingSpeed = 60),
         Material(name = "PETG", extruderTemp = 250, bedTemp = 70, extrusionMultiplier = 1.10, defaultPrintingSpeed = 60),
-        Material(name = "TPU", extruderTemp = 220, bedTemp = 60, extrusionMultiplier = 1.0, defaultPrintingSpeed = 30)
+        Material(name = "TPU", extruderTemp = 220, bedTemp = 60, extrusionMultiplier = 1.0, defaultPrintingSpeed = 30, firstLayerHeightPercentage = 200, firstLayerWidthPercentage = 75)
 )
 
 
@@ -70,6 +77,8 @@ fun genMaterial(material: Material, nozzle: Nozzle): String {
       <setpoint layer="1" speed="100"/>
     </fanSpeed>
     <defaultSpeed>${material.defaultPrintingSpeed*60*nozzle.defaultSpeedMultiplier}</defaultSpeed>
+    <firstLayerHeightPercentage>${material.firstLayerHeightPercentage}</firstLayerHeightPercentage>
+    <firstLayerWidthPercentage>${material.firstLayerWidthPercentage}</firstLayerWidthPercentage>
   </autoConfigureMaterial>"""
 }
 
