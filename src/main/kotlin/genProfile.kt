@@ -61,7 +61,23 @@ fun genMaterial(material: Material, nozzle: Nozzle): String {
     <globalExtruderTemperature>${material.extruderTemp + nozzle.extruderTempOffSet}</globalExtruderTemperature>
     <globalBedTemperature>${material.bedTemp}</globalBedTemperature>
     <globalExtrusionMultiplier>${material.extrusionMultiplier}</globalExtrusionMultiplier>
-     <startingGcode>G92 E0 ; Reset Extruder distance to 0,G1 E-3.5 ; Retracts filament to prevent blobs during probing,G28 ; home all axes,G28 Z ; home Z to get more accurate Z position,G29; EZABL mesh generation,G4 S$heaterRecoveryTime; wait for heaters to recover,M117 Purge extruder,G92 E0 ; reset extruder,G1 Z1.0 F3000 ; move z up little,G1 X0.1 Y20 Z$purgeZHeight F5000.0 ; move to start-line position,G1 X0.1 Y100.0 Z$purgeZHeight F750.0 E15 ; draw 1st line,G1 X0.4 Y100.0 Z$purgeZHeight F5000.0 ; move to side a little,G1 X0.4 Y20 Z$purgeZHeight F750.0 E30 ; draw 2nd line,G92 E0 ; reset extruder,G1 Z1.0 F3000 ; move z up little,M117 Printing.....</startingGcode>
+     <startingGcode>
+        G92 E0 ; Reset Extruder distance to 0,
+        G1 E-3.5 ; Retracts filament to prevent blobs during probing,
+        G28 ; home all axes,
+        G28 Z ; home Z to get more accurate Z position,
+        G29; EZABL mesh generation,
+        G4 S$heaterRecoveryTime; wait for heaters to recover,
+        M117 Purge extruder,
+        G92 E0 ; reset extruder,
+        G1 Z1.0 F3000 ; move z up little,
+        G1 X3.0 Y20 Z$purgeZHeight F5000.0 ; move to start-line position,
+        G1 X3.0 Y100.0 Z$purgeZHeight F750.0 E15 ; draw 1st line,
+        G1 X4.0 Y100.0 Z$purgeZHeight F5000.0 ; move to side a little,
+        G1 X4.0 Y20 Z$purgeZHeight F750.0 E30 ; draw 2nd line,
+        G92 E0 ; reset extruder,
+        G1 Z1.0 F3000 ; move z up little,
+        M117 Printing.....</startingGcode>
     <fanSpeed>
       <setpoint layer="1" speed="100"/>
     </fanSpeed>
