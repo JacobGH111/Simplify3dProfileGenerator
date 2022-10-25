@@ -54,7 +54,6 @@ fun genQuality(name: String, layerHeight: Double, infillPercntage: Int): String 
 }
 
 fun genMaterial(material: Material, nozzle: Nozzle): String {
-    val heaterRecoveryTime = if( (material.extruderTemp + nozzle.extruderTempOffSet) <= 250 ) 45 else 90
 
     val purgeZHeight = "0.5"
     return """<autoConfigureMaterial name="${material.name}">
@@ -67,7 +66,6 @@ fun genMaterial(material: Material, nozzle: Nozzle): String {
         G28 ; home all axes,
         G28 Z ; home Z to get more accurate Z position,
         G29; EZABL mesh generation,
-        G4 S$heaterRecoveryTime; wait for heaters to recover,
         M117 Purge extruder,
         G92 E0 ; reset extruder,
         G1 Z1.0 F3000 ; move z up little,
@@ -84,6 +82,10 @@ fun genMaterial(material: Material, nozzle: Nozzle): String {
     <defaultSpeed>${material.defaultPrintingSpeed*60*nozzle.defaultSpeedMultiplier}</defaultSpeed>
     <firstLayerHeightPercentage>${material.firstLayerHeightPercentage}</firstLayerHeightPercentage>
     <firstLayerWidthPercentage>${material.firstLayerWidthPercentage}</firstLayerWidthPercentage>
+  <useSkirt>${material.skirtBoolNum}</useSkirt>
+  <skirtLayers>${material.skirt?.layers ?: 0}</skirtLayers>
+  <skirtOutlines>${material.skirt?.outlines ?: 0}</skirtOutlines>
+  <skirtOffset>${material.skirt?.offSetMM ?: 0}</skirtOffset>
   </autoConfigureMaterial>"""
 }
 
