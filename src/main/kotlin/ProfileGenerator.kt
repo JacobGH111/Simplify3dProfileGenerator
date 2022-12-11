@@ -145,7 +145,7 @@ fun genProfile(nozzle: Nozzle): String {
   <layerChangeGcode></layerChangeGcode>
   <retractionGcode></retractionGcode>
   <toolChangeGcode></toolChangeGcode>
-  <endingGcode>G28 X0 ; home X axis,M106 S0 ; turn off cooling fan,M104 S0 ; turn off extruder,M140 S0 ; turn off bed,M84 ; disable motors</endingGcode>
+  <endingGcode>G28 X0 ; home X axis,M106 S0 ; turn off cooling fan,M104 S0 ; turn off extruder,M140 S0 ; turn off bed,M84 ; disable motors, M300 s2800 p300 ; play a jingle to say it's done, M300 s2900 p100, M300 s2400 p250, M300 s2700 p1500, M300 s3000 p300, M300 s2900 p100, M300 s2400 p250</endingGcode>
   <exportFileFormat>gcode</exportFileFormat>
   <celebration>0</celebration>
   <celebrationSong>Random Song</celebrationSong>
