@@ -55,7 +55,7 @@ fun genQuality(name: String, layerHeight: Double, infillPercntage: Int): String 
 
 fun genMaterial(material: Material, nozzle: Nozzle): String {
 
-    val purgeZHeight = "0.5"
+    val purgeZHeight = "1.0"
     return """<autoConfigureMaterial name="${material.name}">
     <globalExtruderTemperature>${material.extruderTemp + nozzle.extruderTempOffSet}</globalExtruderTemperature>
     <globalBedTemperature>${material.bedTemp}</globalBedTemperature>
