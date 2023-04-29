@@ -27,7 +27,7 @@ val nozzles = listOf(
 
 
 fun writeProfile(nozzle: Nozzle) {
-    val homeDir = System.getProperty("user.home") + "/Desktop"
+    val homeDir = System.getProperty("user.home")
     val writeTo = "$homeDir/s3dprofiles/Ender_3_${nozzle.diameter}mm.fff"
     println("writing to $writeTo")
     File(writeTo).writeText(genProfile(nozzle))
