@@ -7,7 +7,8 @@ val materials = listOf(
         Material(name = "TPU", extruderTemp = 200, bedTemp = 60, extrusionMultiplier = 1.15, defaultPrintingSpeed = 30, firstLayerHeightPercentage = 200, firstLayerWidthPercentage = 75),
         Material(name = "Polyproylene", extruderTemp = 220, bedTemp = 85, extrusionMultiplier = 1.0, defaultPrintingSpeed = 40, firstLayerWidthPercentage = 500, firstLayerHeightPercentage = 70,
                 skirt = Skirt(layers = 3, offSetMM = 0, outlines = 9)
-        )
+        ),
+        Material(name = "Nylon - CF Reinforced", extruderTemp = 280, bedTemp = 50, extrusionMultiplier = 1.0, defaultPrintingSpeed = 40, firstLayerWidthPercentage = 100)
 )
 
 data class Skirt(
