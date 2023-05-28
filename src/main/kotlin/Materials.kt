@@ -4,7 +4,7 @@ val plaFirstWidth = 100
 val materials = listOf(
         Material(name = "PLA/PLA+", extruderTemp = 218, bedTemp = 60, extrusionMultiplier = 1.0, defaultPrintingSpeed = 60, firstLayerWidthPercentage = plaFirstWidth),
         Material(name = "PETG", extruderTemp = 250, bedTemp = 70, extrusionMultiplier = 1.0, defaultPrintingSpeed = 60, firstLayerWidthPercentage = 100),
-        Material(name = "TPU", extruderTemp = 200, bedTemp = 60, extrusionMultiplier = 1.15, defaultPrintingSpeed = 30, firstLayerHeightPercentage = 200, firstLayerWidthPercentage = 75),
+        Material(name = "TPU", extruderTemp = 200, bedTemp = 60, extrusionMultiplier = 1.15, defaultPrintingSpeed = 30, firstLayerHeightPercentage = 200, firstLayerWidthPercentage = 100),
         Material(name = "Polyproylene", extruderTemp = 220, bedTemp = 85, extrusionMultiplier = 1.0, defaultPrintingSpeed = 40, firstLayerWidthPercentage = 500, firstLayerHeightPercentage = 70,
                 skirt = Skirt(layers = 3, offSetMM = 0, outlines = 9)
         ),
