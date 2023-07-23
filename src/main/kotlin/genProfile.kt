@@ -1,9 +1,6 @@
-import org.xml.sax.InputSource
 import java.io.File
-import java.io.StringReader
 import java.math.BigDecimal
 import java.math.RoundingMode
-import javax.xml.parsers.DocumentBuilderFactory
 
 
 fun main(args: Array<String>) {
@@ -55,7 +52,9 @@ fun genQuality(name: String, layerHeight: Double, infillPercntage: Int): String 
 
 fun genMaterial(material: Material, nozzle: Nozzle): String {
 
-    val purgeZHeight = "1.0"
+    val purgeZHeight = "0.4"
+    val xPurgeLine1 = "6.0"
+    val xLine2 = "7.0"
     return """<autoConfigureMaterial name="${material.name}">
     <globalExtruderTemperature>${material.extruderTemp + nozzle.extruderTempOffSet}</globalExtruderTemperature>
     <globalBedTemperature>${material.bedTemp}</globalBedTemperature>
@@ -65,14 +64,14 @@ fun genMaterial(material: Material, nozzle: Nozzle): String {
         G1 E-3.5 ; Retracts filament to prevent blobs during probing,
         G28 ; home all axes,
         G28 Z ; home Z to get more accurate Z position,
-        G29; EZABL mesh generation,
+        BED_MESH_CALIBRATE,
         M117 Purge extruder,
         G92 E0 ; reset extruder,
         G1 Z1.0 F3000 ; move z up little,
-        G1 X3.0 Y20 Z$purgeZHeight F5000.0 ; move to start-line position,
-        G1 X3.0 Y100.0 Z$purgeZHeight F750.0 E15 ; draw 1st line,
-        G1 X4.0 Y100.0 Z$purgeZHeight F5000.0 ; move to side a little,
-        G1 X4.0 Y20 Z$purgeZHeight F750.0 E30 ; draw 2nd line,
+        G1 X$xPurgeLine1 Y20 Z$purgeZHeight F5000.0 ; move to start-line position,
+        G1 X$xPurgeLine1 Y100.0 Z$purgeZHeight F750.0 E15 ; draw 1st line,
+        G1 X$xLine2 Y100.0 Z$purgeZHeight F5000.0 ; move to side a little,
+        G1 X$xLine2 Y20 Z$purgeZHeight F750.0 E30 ; draw 2nd line,
         G92 E0 ; reset extruder,
         G1 Z1.0 F3000 ; move z up little,
         M117 Printing.....</startingGcode>
